@@ -1,22 +1,24 @@
 import { Camera, Mic, Sparkles, BookOpen, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/Card";
 import { toast } from "sonner";
 
 const GAssist = () => {
+  const navigate = useNavigate();
   const gAssistFeatures = [
     {
       icon: Camera,
       title: "Photo-to-Form AI",
       description:
         "Upload documents and let AI automatically fill out government forms. Save time and reduce errors",
-      action: () => toast.info("Photo-to-Form AI - Coming Soon"),
+      action: () => navigate("/g-assist/photo-to-form"),
     },
     {
       icon: Mic,
       title: "Voice Chatbot",
       description:
         "Talk to our AI assistant in multiple Indian languages. Get answers to queries about government services",
-      action: () => toast.info("Voice Chatbot - Coming Soon"),
+      action: () => navigate("/g-assist/voice-chatbot"),
     },
     {
       icon: Sparkles,

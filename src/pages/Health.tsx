@@ -1,22 +1,24 @@
 import { Scan, FileText, AlertTriangle, MapPin, Bell } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/Card";
 import { toast } from "sonner";
 
 const Health = () => {
+  const navigate = useNavigate();
   const healthFeatures = [
     {
       icon: Scan,
       title: "Medicine Scanner",
       description:
         "Scan barcodes or medicine strips to verify authenticity and check for expired or counterfeit drugs",
-      action: () => toast.info("Medicine Scanner - Coming Soon"),
+      action: () => navigate("/health/medicine-scanner"),
     },
     {
       icon: FileText,
       title: "Prescription Reader",
       description:
         "Upload handwritten prescriptions for OCR processing and receive audio instructions in your language",
-      action: () => toast.info("Prescription Reader - Coming Soon"),
+      action: () => navigate("/health/prescription-reader"),
     },
     {
       icon: AlertTriangle,

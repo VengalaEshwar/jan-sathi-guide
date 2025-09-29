@@ -1,0 +1,13 @@
+project_id = "ofgwgfxswtltzteprwvo"
+
+[functions.analyze-medicine]
+verify_jwt = false
+
+[functions.read-prescription]
+verify_jwt = false
+
+[functions.extract-form-data]
+verify_jwt = false
+
+[functions.voice-chat]
+verify_jwt = false
