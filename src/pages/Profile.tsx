@@ -11,6 +11,7 @@ import { LanguageDialog } from "@/components/profile/LanguageDialog";
 import { NotificationsDialog } from "@/components/profile/NotificationsDialog";
 import { AccessibilityDialog } from "@/components/profile/AccessibilityDialog";
 import { ProfileChatbot } from "@/components/profile/ProfileChatbot";
+import { HelpSupportDialog } from "@/components/profile/HelpSupportDialog";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Profile = () => {
   const [languageOpen, setLanguageOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [accessibilityOpen, setAccessibilityOpen] = useState(false);
+  const [helpSupportOpen, setHelpSupportOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -103,7 +105,7 @@ const Profile = () => {
       icon: HelpCircle,
       title: "Help & Support",
       description: "FAQs, tutorials, and contact support for assistance",
-      action: () => toast.info("Help Center - Coming Soon"),
+      action: () => setHelpSupportOpen(true),
     },
   ];
 
@@ -210,6 +212,10 @@ const Profile = () => {
         open={accessibilityOpen}
         onOpenChange={setAccessibilityOpen}
         userId={user.id}
+      />
+      <HelpSupportDialog
+        open={helpSupportOpen}
+        onOpenChange={setHelpSupportOpen}
       />
 
       {/* Chatbot */}
