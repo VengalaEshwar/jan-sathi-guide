@@ -14,7 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          age: number | null
+          appointment_alerts: boolean | null
+          created_at: string | null
+          first_name: string | null
+          government_updates: boolean | null
+          high_contrast: boolean | null
+          id: string
+          language: string | null
+          last_name: string | null
+          location: string | null
+          medication_reminders: boolean | null
+          notifications_enabled: boolean | null
+          phone: string | null
+          screen_reader: boolean | null
+          text_size: string | null
+          updated_at: string | null
+          voice_navigation: boolean | null
+        }
+        Insert: {
+          age?: number | null
+          appointment_alerts?: boolean | null
+          created_at?: string | null
+          first_name?: string | null
+          government_updates?: boolean | null
+          high_contrast?: boolean | null
+          id: string
+          language?: string | null
+          last_name?: string | null
+          location?: string | null
+          medication_reminders?: boolean | null
+          notifications_enabled?: boolean | null
+          phone?: string | null
+          screen_reader?: boolean | null
+          text_size?: string | null
+          updated_at?: string | null
+          voice_navigation?: boolean | null
+        }
+        Update: {
+          age?: number | null
+          appointment_alerts?: boolean | null
+          created_at?: string | null
+          first_name?: string | null
+          government_updates?: boolean | null
+          high_contrast?: boolean | null
+          id?: string
+          language?: string | null
+          last_name?: string | null
+          location?: string | null
+          medication_reminders?: boolean | null
+          notifications_enabled?: boolean | null
+          phone?: string | null
+          screen_reader?: boolean | null
+          text_size?: string | null
+          updated_at?: string | null
+          voice_navigation?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
