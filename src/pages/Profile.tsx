@@ -1,33 +1,97 @@
-import { User, Globe, Bell, Eye, Shield, HelpCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { User, Globe, Bell, Eye, Shield, HelpCircle, LogOut } from "lucide-react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { PersonalInfoDialog } from "@/components/profile/PersonalInfoDialog";
+import { LanguageDialog } from "@/components/profile/LanguageDialog";
+import { NotificationsDialog } from "@/components/profile/NotificationsDialog";
+import { AccessibilityDialog } from "@/components/profile/AccessibilityDialog";
+import { ProfileChatbot } from "@/components/profile/ProfileChatbot";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
+  const [profile, setProfile] = useState<any>(null);
+  const [personalInfoOpen, setPersonalInfoOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [accessibilityOpen, setAccessibilityOpen] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/auth");
+    } else if (user) {
+      loadProfile();
+    }
+  }, [user, loading, navigate]);
+
+  const loadProfile = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+      setProfile(data);
+    } catch (error: any) {
+      console.error("Error loading profile:", error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Signed out successfully");
+      navigate("/auth");
+    } catch (error: any) {
+      toast.error("Error signing out");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
   const profileSections = [
     {
       icon: User,
       title: "Personal Information",
       description: "Update your name, age, location, and contact details",
-      action: () => toast.info("Personal Info - Coming Soon"),
+      action: () => setPersonalInfoOpen(true),
     },
     {
       icon: Globe,
       title: "Language Preferences",
       description: "Choose your preferred language for app interface and voice assistance",
-      action: () => toast.info("Language Settings - Coming Soon"),
+      action: () => setLanguageOpen(true),
     },
     {
       icon: Bell,
       title: "Notifications",
       description: "Manage alerts for medications, appointments, and government updates",
-      action: () => toast.info("Notification Settings - Coming Soon"),
+      action: () => setNotificationsOpen(true),
     },
     {
       icon: Eye,
       title: "Accessibility",
       description: "Text size, high contrast mode, screen reader, and voice navigation",
-      action: () => toast.info("Accessibility - Coming Soon"),
+      action: () => setAccessibilityOpen(true),
     },
     {
       icon: Shield,
@@ -65,17 +129,31 @@ const Profile = () => {
             <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
               <User className="w-10 h-10 text-white" />
             </div>
-            <div>
-              <h2 className="text-2xl font-bold">Welcome Back!</h2>
-              <p className="text-white/80">Manage your JanSathi experience</p>
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold">
+                {profile?.first_name && profile?.last_name
+                  ? `${profile.first_name} ${profile.last_name}`
+                  : "Welcome Back!"}
+              </h2>
+              <p className="text-white/80">{user?.email}</p>
             </div>
           </div>
-          <Button
-            className="mt-4 bg-white text-primary hover:bg-white/90"
-            onClick={() => toast.info("Edit Profile - Coming Soon")}
-          >
-            Edit Profile
-          </Button>
+          <div className="flex gap-2 mt-4">
+            <Button
+              className="bg-white text-primary hover:bg-white/90"
+              onClick={() => setPersonalInfoOpen(true)}
+            >
+              Edit Profile
+            </Button>
+            <Button
+              variant="outline"
+              className="border-white text-white hover:bg-white/10"
+              onClick={handleSignOut}
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
         </div>
 
         {/* Settings Cards */}
@@ -111,6 +189,31 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      {/* Dialogs */}
+      <PersonalInfoDialog
+        open={personalInfoOpen}
+        onOpenChange={setPersonalInfoOpen}
+        userId={user.id}
+      />
+      <LanguageDialog
+        open={languageOpen}
+        onOpenChange={setLanguageOpen}
+        userId={user.id}
+      />
+      <NotificationsDialog
+        open={notificationsOpen}
+        onOpenChange={setNotificationsOpen}
+        userId={user.id}
+      />
+      <AccessibilityDialog
+        open={accessibilityOpen}
+        onOpenChange={setAccessibilityOpen}
+        userId={user.id}
+      />
+
+      {/* Chatbot */}
+      <ProfileChatbot />
     </div>
   );
 };

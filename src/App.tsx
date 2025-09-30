@@ -9,6 +9,7 @@ import Health from "./pages/Health";
 import GAssist from "./pages/GAssist";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
+import Auth from "./pages/Auth";
 import MedicineScanner from "./pages/MedicineScanner";
 import PrescriptionReader from "./pages/PrescriptionReader";
 import PhotoToForm from "./pages/PhotoToForm";
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/g-assist/voice-chatbot" element={<VoiceChatbot />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
