@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
+import { GlobalChatbot } from "./components/GlobalChatbot";
 import Home from "./pages/Home";
 import Health from "./pages/Health";
 import GAssist from "./pages/GAssist";
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <GlobalChatbot />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
